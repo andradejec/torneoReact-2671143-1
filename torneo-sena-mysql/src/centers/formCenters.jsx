@@ -67,6 +67,9 @@ const FormCenters = () => {
                     )}
 
                 </select>
+                <br />
+                <label htmlFor="nombreCentro">Nombre Centro: </label>
+                <input type="text" value={nombreCentro} onChange={(e) => setNombreCentro(e.target.value)} />
             </form>
         </>
     )
