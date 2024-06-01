@@ -21,7 +21,6 @@ app.use('/centers', centerRoutes)
 app.use('/deptos', deptosRoutes)
 app.use('/mcipios', municipioRoutes)
 
-
 try {
     await db.authenticate()
     console.log("Conexión exitosa a la db")

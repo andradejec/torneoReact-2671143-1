@@ -16,6 +16,10 @@ const FormQueryPlayer = ({ URI, getPlayer, deletePlayer, buttonForm }) => { //im
             setPlayerQuery(
                 respuesta.data
             )
+
+            console.log(playerQuery)
+
+
         } else {
             //Si el input está vacío se establece de nuevo como vacío el arreglo playerQuery
             setPlayerQuery([])

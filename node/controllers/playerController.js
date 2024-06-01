@@ -1,5 +1,11 @@
 import { Sequelize } from "sequelize";
 import PlayerModel from "../models/playerModel.js";
+
+import multer from 'multer'
+import path from 'path'
+
+const upload = multer({ dest: 'public/uploads/' })  //Directorio donde se guardarán los archivos
+
 //Mostrar todos los registros
 export const getAllPlayers = async (req, res) => {
     try {

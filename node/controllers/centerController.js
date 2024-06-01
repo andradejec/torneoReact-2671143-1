@@ -72,7 +72,7 @@ export const deleteCenter = async (req, res) => {
 
 //consultar centro por nombre
 export const getQueryCenter = async (req, res) => {
-    console.log(req.params.nombre_centro)
+
     try {
         const center = await CenterModel.findAll({
             where: {

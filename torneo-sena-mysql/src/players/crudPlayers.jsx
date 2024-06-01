@@ -107,8 +107,9 @@ const CrudPlayers = () => {
                             <td>{player.genero}</td>
                             <td>{player.estado}</td>
                             <td>
-                                <button onClick={() => getPlayer(player.id)}>Editar</button>
-                                <button onClick={() => deletePlayer(player.id)}>Borrar</button></td>
+                                <span className="btn btn-primary" onClick={() => getPlayer(player.id)}><i className="fa-solid fa-pen-to-square"></i></span>
+                                <span className="btn btn-danger m-1" onClick={() => deletePlayer(player.id)}><i className="fa-solid fa-pen-to-square"></i></span>
+                            </td>
                         </tr>
                     ))}
 

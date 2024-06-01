@@ -17,9 +17,8 @@ export const getMunicipiosPorDepto = async (req, res) => {
         const municipios = await MunicipioModel.findAll({
 
             where: { idDepto: req.params.idDepto }  //Hacer la búsqueda con el id del departamento
-            
+
         })
-        console.log(municipios)
         res.json(municipios)
 
     } catch (error) {
