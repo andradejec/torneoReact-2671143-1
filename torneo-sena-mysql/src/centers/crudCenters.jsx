@@ -93,7 +93,7 @@ const CrudCenters = () => {
                         <tr key={center.id}>
                             <td>{center.codigo_centro}</td>
                             <td>{center.deptos.DepNombre}</td>
-                            <td>{center.id_municipio}</td>
+                            <td>{center.mcipio.mcipioNombre}</td>
                             <td>{center.nombre_centro}</td>
                             <td>
                                 <span className="btn btn-primary" onClick={() => getCenter(center.id)}><i className="fa-solid fa-pen-to-square"></i></span>

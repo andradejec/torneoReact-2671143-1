@@ -1,10 +1,6 @@
 import { Sequelize } from "sequelize";
 import PlayerModel from "../models/playerModel.js";
 
-import multer from 'multer'
-import path from 'path'
-
-const upload = multer({ dest: 'public/uploads/' })  //Directorio donde se guardarán los archivos
 
 //Mostrar todos los registros
 export const getAllPlayers = async (req, res) => {
@@ -30,7 +26,19 @@ export const getPlayer = async (req, res) => {
 //Crear un player
 export const createPlayer = async (req, res) => {
     try {
-        await PlayerModel.create(req.body)
+
+        //Cambia la manera de leer los datos que llegan del formulario
+        const { documento, nombres, apellidos, genero } = req.body
+        //Operador ternario, si el archivo existe se toma su nombre, si no, se establece como null
+        const foto = req.file ? req.file.filename : null
+
+        await PlayerModel.create({
+            documento,
+            nombres,
+            apellidos,
+            genero,
+            foto
+        })
         res.json({ "message": "¡Registro creado exitosamente!" })
 
     } catch (error) {
@@ -40,11 +48,36 @@ export const createPlayer = async (req, res) => {
 
 //Actualizar un registro
 export const updatePlayer = async (req, res) => {
+
     try {
-        await PlayerModel.update(req.body, {
-            where: { id: req.params.id }
-        })
-        res.json({ "message": "¡Registro actualziado exitosamente!" })
+        //Cambia la manera de leer los datos que llegan del formulario
+        const { documento, nombres, apellidos, genero } = req.body
+
+        //Operador ternario, si el archivo existe se toma su nombre, si no, se establece como null
+        const foto = req.file ? req.file.filename : null
+
+        if (foto != null) { //Si viene una foto actualizar teniendo en cuenta el campo foto
+
+            await PlayerModel.update({
+                documento,
+                nombres,
+                apellidos,
+                genero,
+                foto    // Aquí se tiene en cuenta el campo foto
+            }, { where: { id: req.params.id } })
+
+        } else {    //Si no viene la foto no se tiene en cuenta el campo foto porque de lo contrario borraría el nombre de la foto en la base de datos
+
+            await PlayerModel.update({
+                documento,
+                nombres,
+                apellidos,
+                genero
+            }, { where: { id: req.params.id } })
+        }
+
+        res.json({ "message": "¡Registro actualizado exitosamente!" })
+
     } catch (error) {
         res.json({ message: error.message })
     }
@@ -52,6 +85,7 @@ export const updatePlayer = async (req, res) => {
 
 //Borrar un registro
 export const deletePlayer = async (req, res) => {
+    console.log('detele player con id ' + req.params.id)
     try {
         await PlayerModel.destroy({
             where: { id: req.params.id }

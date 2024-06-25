@@ -17,7 +17,7 @@ const FormQueryPlayer = ({ URI, getPlayer, deletePlayer, buttonForm }) => { //im
                 respuesta.data
             )
 
-            console.log(playerQuery)
+            console.log(playerQuery.length)
 
 
         } else {

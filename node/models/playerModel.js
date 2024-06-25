@@ -7,7 +7,8 @@ const PlayerModel = db.define('players', {
     nombres: { type: DataTypes.STRING },
     apellidos: { type: DataTypes.STRING },
     genero: { type: DataTypes.CHAR },
-    estado: { type: DataTypes.CHAR }
+    estado: { type: DataTypes.CHAR },
+    foto: { type: DataTypes.STRING, allowNull: true }
 })
 
 export default PlayerModel

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useEffect } from "react";
 
 const FormPlayers = ({ buttonForm, player, URI, updateTextButton }) => {   // Agregar como parámetro el botón que llega desde el componente crudPlayers
@@ -10,6 +10,9 @@ const FormPlayers = ({ buttonForm, player, URI, updateTextButton }) => {   // Ag
     const [apellidos, setApellidos] = useState('')
     const [genero, setGenero] = useState('')
     const [estado, setEstado] = useState('')
+    const [foto, setFoto] = useState(null)
+
+    const inputFoto = useRef(null)
 
     // Función que recibe los datos del formulario
     const sendForm = (e) => {
@@ -25,7 +28,12 @@ const FormPlayers = ({ buttonForm, player, URI, updateTextButton }) => {   // Ag
                 nombres: nombres,
                 apellidos: apellidos,
                 genero: genero,
-                estado: estado
+                estado: estado,
+                foto: foto
+            }, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             })
 
             updateTextButton('Enviar')  //  Cambiar el texto del botón
@@ -33,14 +41,18 @@ const FormPlayers = ({ buttonForm, player, URI, updateTextButton }) => {   // Ag
             clearForm() //  Limpiar el formulario
 
         } else if (buttonForm == 'Enviar') {
-            console.log('guardando ando...')
+            console.log('guardando ando...' + foto)
             // Aquí va el código para guardar
             axios.post(URI, {
                 documento: documento,
                 nombres: nombres,
                 apellidos, apellidos,
                 genero: genero,
-                estado: estado
+                estado: estado,
+                foto: foto
+            }, {
+                //Esta es una propiedad para el form que permite el envío de archivos
+                headers: { "Content-Type": "multipart/form-data" }
             })
 
             clearForm()
@@ -55,6 +67,8 @@ const FormPlayers = ({ buttonForm, player, URI, updateTextButton }) => {   // Ag
         setApellidos('')
         setGenero('')
         setEstado('')
+        setFoto(null)
+        inputFoto.current.value = ''    //Restablecer el valor del input de la foto 
     }
 
     const setData = () => { // Función que establece los valores a los campos para que se muestren en el formulario cuando presionen el botón editar, los datos llegan del objeto 'player'
@@ -63,11 +77,14 @@ const FormPlayers = ({ buttonForm, player, URI, updateTextButton }) => {   // Ag
         setApellidos(player.apellidos)
         setGenero(player.genero)
         setEstado(player.estado)
+        setFoto(player.foto)
     }
 
     useEffect(() => {   // useEffect escucha los cambios en el objeto 'player' y se ejecuta la función 'setData'
         setData()
     }, [player])
+
+
 
     return (
         <>
@@ -98,6 +115,8 @@ const FormPlayers = ({ buttonForm, player, URI, updateTextButton }) => {   // Ag
                     <option value="deshabilitado">Deshabilitado</option>
                 </select>
                 <br />
+                <label htmlFor="foto"></label>
+                <input type="file" id="foto" onChange={(e) => setFoto(e.target.files[0])} ref={inputFoto}></input>
 
                 <input type="submit" id="boton" value={buttonForm} className="btn btn-success" />
             </form>

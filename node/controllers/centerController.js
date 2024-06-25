@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import CenterModel from "../models/centerModel.js";
-import { DeptosModel } from "../app.js";    // Importar modelo modificado en el archivo app.js
+import { DeptosModel, MunicipioModel } from "../app.js";    // Importar modelo modificado en el archivo app.js
 
 //Mostrar todos los registros
 export const getAllCenters = async (req, res) => {
@@ -11,7 +11,12 @@ export const getAllCenters = async (req, res) => {
             include: [{
                 model: DeptosModel,
                 as: 'deptos'
-            }]
+            },
+            {
+                model: MunicipioModel,
+                as: 'mcipio'
+            }
+            ]
         })
         res.json(centers)
     } catch (error) {
